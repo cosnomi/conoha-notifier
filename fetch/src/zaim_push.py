@@ -15,6 +15,7 @@ def push_payment_to_zaim(amount, date: datetime = None, name="ConoHa"):
     api.payment(
         category_id=os.environ['ZAIM_CONOHA_CATEGORY_ID'],
         genre_id=os.environ['ZAIM_CONOHA_GENRE_ID'],
+        from_account_id=os.environ['ZAIM_CONOHA_ACCOUNT_ID'],
         amount=amount,
         date=date.strftime('%Y-%m-%d'),
         name=name)
