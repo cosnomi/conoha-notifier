@@ -56,8 +56,6 @@ workflows:
     jobs:
       - build
       - release:
-          requires:
-            - hold
           filters:
             branches:
               only:
