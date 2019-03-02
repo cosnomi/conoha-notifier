@@ -1,6 +1,8 @@
-import requests
+import calendar
 from config import read_config
 from datetime import datetime
+import requests
+from zaim_push import push_payment_to_zaim
 
 
 def lambda_handler(event, context):
@@ -10,8 +12,15 @@ def lambda_handler(event, context):
         get_token_request_payload(config['CONOHA_API_USER'],
                                   config['CONOHA_API_PW'],
                                   config['CONOHA_TENANT_ID']))
-    get_payment(config['CONOHA_ACCOUNT_SERVICE_URL'], 50, event['year'],
-                event['month'], token, config['CONOHA_DATE_FORMAT'])
+    year = event['year']
+    month = event['month']
+    amount = get_payment(config['CONOHA_ACCOUNT_SERVICE_URL'], 50, year, month,
+                         token, config['CONOHA_DATE_FORMAT'])
+    push_payment_to_zaim(
+        amount=amount,
+        date=datetime(year, month,
+                      calendar.monthrange(year, month)[1]),
+    )
 
 
 def get_token(token_url: str, req_payload) -> str:

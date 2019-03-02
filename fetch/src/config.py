@@ -13,7 +13,7 @@ def read_config():
         'CONOHA_API_USER', 'CONOHA_API_PW', 'CONOHA_TENANT_ID',
         'CONOHA_ACCOUNT_SERVICE_URL'
     ]
-    config = {}
+    config = const_config
     for config_key in env_config_key_list:
         config[config_key] = os.environ[config_key]
     return config
