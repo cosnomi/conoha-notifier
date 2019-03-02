@@ -19,14 +19,14 @@ jobs:
             cd fetch/src
             chmod 755 ./* -R
             mkdir -p /tmp/workspace
-            zip -r /tmp/workspace/fetch *
+            zip -r /tmp/workspace/fetch_lambda_upload *
       - store_artifacts:
-          path: /tmp/workspace/fetch.zip
+          path: /tmp/workspace/fetch_lambda_upload.zip
           destination: fetch_lambda_upload.zip
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
-            - fetch.zip
+            - fetch_lambda_upload.zip
   release:
     docker:
       - image: python:3-slim
@@ -50,7 +50,7 @@ jobs:
           name: Release
           command: |
             VERSION=$(git describe)
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /tmp/workspace/fetch.zip
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /tmp/workspace/fetch_lambda_upload.zip
 workflows:
   version: 2
   build_and_release:
