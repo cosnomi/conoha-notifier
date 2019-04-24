@@ -51,6 +51,7 @@ def get_payment(account_service_url: str, limit: int, year: int, month: int,
         headers={
             'X-Auth-Token': token
         }).json()
+    print(res)
     pay = 0  # 合計
     for invoice in res['billing_invoices']:
         invoice_datetime = datetime.strptime(invoice['invoice_date'],
