@@ -4,6 +4,9 @@ from datetime import datetime
 import requests
 from zaim_push import push_payment_to_zaim
 from slack_webhook import send_slack_message
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def lambda_handler(event, context):
