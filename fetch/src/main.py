@@ -61,3 +61,7 @@ def get_payment(account_service_url: str, limit: int, year: int, month: int,
         if invoice_datetime.year == year and invoice_datetime.month == month:
             pay += int(invoice['bill_plus_tax'])
     return pay
+
+
+if __name__ == "__main__":
+    lambda_handler({}, {})
