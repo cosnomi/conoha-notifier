@@ -5,6 +5,7 @@ import requests
 from zaim_push import push_payment_to_zaim
 from slack_webhook import send_slack_message
 from dotenv import load_dotenv
+from typing import Dict
 
 load_dotenv()
 
@@ -64,4 +65,12 @@ def get_payment(account_service_url: str, limit: int, year: int, month: int,
 
 
 if __name__ == "__main__":
-    lambda_handler({}, {})
+    import os
+    event: Dict[str, str] = {}
+    if "MOCK_DATE" in os.environ.keys():
+        mock_date = datetime.strptime(os.environ["MOCK_DATE"], "%Y-%m-%d %H:%M:%S")
+        event = {
+            "year": mock_date.year,
+            "month": mock_date.month,
+        }
+    lambda_handler(event, {})
