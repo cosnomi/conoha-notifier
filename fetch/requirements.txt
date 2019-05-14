@@ -1,2 +1,3 @@
 requests
 zaim
+python-dotenv
