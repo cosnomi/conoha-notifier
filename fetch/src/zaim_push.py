@@ -1,4 +1,4 @@
-import zaim
+import zaim  # type: ignore
 import os
 from datetime import datetime
 
