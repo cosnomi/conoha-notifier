@@ -9,6 +9,3 @@ python-dotenv = "*"
 [packages]
 requests = "*"
 zaim = "*"
-
-[requires]
-python_version = "3.6"
