@@ -82,8 +82,10 @@ def get_detailed_info(account_service_url: str, invoice_id: int,
             'X-Auth-Token': token
         }).json()["billing_invoice"]["items"]
     invoice_items: List[InvoiceItem] = [
-        InvoiceItem(quantity=item["quantity"], name=item["product_name"])
-        for item in items
+        InvoiceItem(
+            quantity=item["quantity"],
+            name=item["product_name"],
+            unit_price=float(item["unit_price"])) for item in items
     ]
     return invoice_items
 

@@ -5,6 +5,7 @@ from typing import NamedTuple, List
 class InvoiceItem(NamedTuple):
     quantity: int
     name: str
+    unit_price: float
 
 
 class Invoice(NamedTuple):

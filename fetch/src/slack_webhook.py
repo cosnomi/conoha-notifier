@@ -13,7 +13,7 @@ def send_slack_message(month, invoices: List[Invoice]):
         attachments.extend([{
             "color": "#12b8d7",
             "title": item.name,
-            "text": "{}円".format(item.quantity)
+            "text": "{}円 ({}円/h)".format(item.quantity, item.unit_price)
         } for item in invoice.detailed])
     payload = {
         "username":
