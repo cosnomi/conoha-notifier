@@ -6,6 +6,7 @@ from zaim_push import push_payment_to_zaim
 from slack_webhook import send_slack_message
 from dotenv import load_dotenv
 from typing import Dict
+from invoice import Invoice, InvoiceItem
 
 load_dotenv()
 
@@ -62,14 +63,29 @@ def get_payment(account_service_url: str, limit: int, year: int, month: int,
                                              conoha_date_format)
         if invoice_datetime.year == year and invoice_datetime.month == month:
             pay += int(invoice['bill_plus_tax'])
+            get_detailed_info(account_service_url, invoice["invoice_id"], token)
+
     return pay
+
+
+def get_detailed_info(account_service_url: str, invoice_id: int,
+                      token: str) -> InvoiceItem:
+    res = requests.get(
+        account_service_url + '/billing-invoices/{}'.format(invoice_id),
+        headers={
+            'X-Auth-Token': token
+        }).json()
+    invoice_item = InvoiceItem(
+        quantity=res["quantity"], name=res["product_name"])
+    return invoice_item
 
 
 if __name__ == "__main__":
     import os
-    event: Dict[str, str] = {}
+    event: Dict[str, int] = {}
     if "MOCK_DATE" in os.environ.keys():
-        mock_date = datetime.strptime(os.environ["MOCK_DATE"], "%Y-%m-%d %H:%M:%S")
+        mock_date = datetime.strptime(os.environ["MOCK_DATE"],
+                                      "%Y-%m-%d %H:%M:%S")
         event = {
             "year": mock_date.year,
             "month": mock_date.month,
